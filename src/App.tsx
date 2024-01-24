@@ -39,6 +39,7 @@ const App = () => {
           <Route path="/profile/:id/*" element={<Profile />} />
           <Route path="/update-profile/:id" element={<UpdateProfile />} />
           <Route path="/explore" element={<Explore />} />
+          {/* do i need 2 explore routes??? probably not */}
         </Route>
       </Routes>
       <Toaster />
