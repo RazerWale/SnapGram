@@ -22,12 +22,14 @@ const App = () => {
     <main className="flex h-screen">
       <Routes>
         {/* {public routes} */}
+        {/* outlet of AuthLayout will render child depend on route path */}
         <Route element={<AuthLayout />}>
           <Route path="/sign-in" element={<SigninForm />} />
           <Route path="/sign-up" element={<SignupForm />} />
         </Route>
 
         {/* {privet routes} */}
+        {/* outlet of RootLayout will render child depend on route path */}
         <Route element={<RootLayout />}>
           <Route index element={<Home />} />
           <Route path="/explore" element={<Explore />} />
@@ -38,7 +40,6 @@ const App = () => {
           <Route path="/post/:id" element={<PostDetails />} />
           <Route path="/profile/:id/*" element={<Profile />} />
           <Route path="/update-profile/:id" element={<UpdateProfile />} />
-          <Route path="/explore" element={<Explore />} />
           {/* do i need 2 explore routes??? probably not */}
         </Route>
       </Routes>

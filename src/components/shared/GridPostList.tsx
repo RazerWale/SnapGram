@@ -3,7 +3,7 @@ import { Models } from "appwrite";
 import { Link } from "react-router-dom";
 import PostStats from "./PostStats";
 
-type GridPostLisProps = {
+type GridPostListProps = {
   posts: Models.Document[];
   showUser?: boolean;
   showStats?: boolean;
@@ -13,9 +13,8 @@ const GridPostList = ({
   posts,
   showUser = true,
   showStats = true,
-}: GridPostLisProps) => {
+}: GridPostListProps) => {
   const { user } = useUserContext();
-
   return (
     <ul className="grid-container">
       {posts.map((post) => (
@@ -31,11 +30,11 @@ const GridPostList = ({
             {showUser && (
               <div className="flex items-center justify-start gap-2 flex-1">
                 <img
-                  src={post.creator.imageUrl}
+                  src={user.imageUrl}
                   alt="creator"
                   className="h-8 w-8 rounded-full"
                 />
-                <p className="line-clamp-1">{post.creator.name}</p>
+                <p className="line-clamp-1">{user.name}</p>
               </div>
             )}
             {showStats && <PostStats post={post} userId={user.id} />}
