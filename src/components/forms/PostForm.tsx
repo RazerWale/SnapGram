@@ -6,7 +6,6 @@ import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -23,6 +22,18 @@ import {
   useCreatePost,
   useUpdatePost,
 } from "@/lib/react-query/queriesAndMutations";
+
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 
 type PostFormProps = {
   post?: Models.Document;
@@ -64,7 +75,13 @@ const PostForm = ({ post, action }: PostFormProps) => {
         toast({ title: "Please try again" });
       }
 
-      return navigate(`/post/${post.$id}`);
+      return (
+        navigate(`/post/${post.$id}`),
+        toast({
+          title: "Updated",
+          description: "Your post successfuly updated!",
+        })
+      );
     }
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
@@ -78,7 +95,18 @@ const PostForm = ({ post, action }: PostFormProps) => {
       });
     }
     navigate("/");
+    toast({
+      title: "Created",
+      description: "Your post successfuly created!",
+    });
   }
+
+  const handleCancel = () => {
+    navigate(-1);
+    toast({
+      description: "Canceled",
+    });
+  };
 
   return (
     <Form {...form}>
@@ -153,7 +181,25 @@ const PostForm = ({ post, action }: PostFormProps) => {
         />
         <div className="flex gap-4 items-center justify-end">
           <Button type="button" className="shad-button_dark_4">
-            Cancel
+            <AlertDialog>
+              <AlertDialogTrigger>Cancel</AlertDialogTrigger>
+              <AlertDialogContent>
+                <AlertDialogHeader>
+                  <AlertDialogTitle>
+                    Are you sure you want to cancel?
+                  </AlertDialogTitle>
+                  <AlertDialogDescription>
+                    Any unsaved changes will be discarded.
+                  </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                  <AlertDialogCancel>Cancel</AlertDialogCancel>
+                  <AlertDialogAction onClick={() => handleCancel()}>
+                    Continue
+                  </AlertDialogAction>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
           </Button>
           <Button
             type="submit"
