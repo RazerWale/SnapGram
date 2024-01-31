@@ -311,7 +311,10 @@ export async function updatePost(post: IUpdatePost) {
     console.log(error);
   }
 }
-export async function deletePost(postId: string, imageId: string) {
+export async function deletePost(
+  postId: string,
+  imageId: string
+): Promise<{ status: "ok" }> {
   if (!postId || !imageId) throw Error;
 
   try {
@@ -323,7 +326,8 @@ export async function deletePost(postId: string, imageId: string) {
 
     return { status: "ok" };
   } catch (error) {
-    console.log(error);
+    console.error(error);
+    throw { status: "error" }; // Adjust the error handling as needed
   }
 }
 export async function getInfinitePosts({ pageParam }: { pageParam: number }) {

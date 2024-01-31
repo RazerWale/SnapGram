@@ -1,16 +1,56 @@
 import Loader from "@/components/shared/Loader";
 import PostStats from "@/components/shared/PostStats";
 import { Button } from "@/components/ui/button";
+import { toast } from "@/components/ui/use-toast";
 import { useUserContext } from "@/context/AuthContext";
-import { useGetPostById } from "@/lib/react-query/queriesAndMutations";
+import {
+  useDeletePost,
+  useGetPostById,
+} from "@/lib/react-query/queriesAndMutations";
 import { multiFormatDateString } from "@/lib/utils";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useNavigate } from "react-router-dom";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
+import { debug } from "console";
 
 const PostDetails = () => {
   const { id } = useParams();
   const { data: post, isPending } = useGetPostById(id || "");
   const { user } = useUserContext();
-  const handleDeletePost = () => {};
+  const { mutate: deletePost, isPending: isDeleting } = useDeletePost();
+  const navigate = useNavigate();
+
+  console.log(isDeleting);
+  console.log(post?.imageId);
+
+  const handleDeletePost = async (e: React.MouseEvent) => {
+    e.stopPropagation();
+    try {
+      if (id) {
+        await deletePost({ postId: id, imageId: post?.imageId });
+
+        if (!isDeleting) {
+          navigate(-1);
+
+          toast({
+            title: "Deleted",
+            description: "Your post was successfully deleted.",
+          });
+        }
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <div className="post_details-container">
@@ -65,18 +105,42 @@ const PostDetails = () => {
                 </Link>
 
                 <Button
-                  onClick={handleDeletePost}
                   variant="ghost"
                   className={`ghost_details-delete_btn ${
                     user.id !== post?.creator.$id && "hidden"
                   }`}
                 >
-                  <img
-                    src="/assets/icons/delete.svg"
-                    alt="delete"
-                    width={24}
-                    height={24}
-                  />
+                  <AlertDialog>
+                    <AlertDialogTrigger>
+                      {isDeleting ? (
+                        <Loader />
+                      ) : (
+                        <img
+                          src="/assets/icons/delete.svg"
+                          alt="delete"
+                          width={24}
+                          height={24}
+                        />
+                      )}
+                    </AlertDialogTrigger>
+                    <AlertDialogContent>
+                      <AlertDialogHeader>
+                        <AlertDialogTitle>
+                          Are you sure you want to delete post?
+                        </AlertDialogTitle>
+                        <AlertDialogDescription>
+                          Delete action will permanently remove this post from
+                          your profile.
+                        </AlertDialogDescription>
+                      </AlertDialogHeader>
+                      <AlertDialogFooter>
+                        <AlertDialogCancel>Cancel</AlertDialogCancel>
+                        <AlertDialogAction onClick={handleDeletePost}>
+                          Delete
+                        </AlertDialogAction>
+                      </AlertDialogFooter>
+                    </AlertDialogContent>
+                  </AlertDialog>
                 </Button>
               </div>
             </div>
