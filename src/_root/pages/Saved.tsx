@@ -1,6 +1,7 @@
 import GridPostList from "@/components/shared/GridPostList";
 import Loader from "@/components/shared/Loader";
 import { useGetCurrentUser } from "@/lib/react-query/queriesAndMutations";
+import { INewPost } from "@/types";
 
 const Saved = () => {
   const { data: user, isPending } = useGetCurrentUser();
@@ -8,7 +9,7 @@ const Saved = () => {
   if (isPending) {
     return <Loader />;
   }
-  const savedPosts = user.posts.filter((post) => {
+  const savedPosts = user?.posts.filter((post) => {
     return post.save.length !== 0;
   });
 

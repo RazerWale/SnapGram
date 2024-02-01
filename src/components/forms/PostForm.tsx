@@ -90,7 +90,7 @@ const PostForm = ({ post, action }: PostFormProps) => {
       userId: user.id,
     });
     if (!newPost) {
-      toast({
+      return toast({
         title: "Please try again!",
       });
     }

@@ -20,7 +20,6 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import { debug } from "console";
 
 const PostDetails = () => {
   const { id } = useParams();
@@ -36,16 +35,18 @@ const PostDetails = () => {
     e.stopPropagation();
     try {
       if (id) {
-        await deletePost({ postId: id, imageId: post?.imageId });
-
-        if (!isDeleting) {
-          navigate(-1);
-
-          toast({
-            title: "Deleted",
-            description: "Your post was successfully deleted.",
-          });
-        }
+        await deletePost(
+          { postId: id, imageId: post?.imageId },
+          {
+            onSuccess: () => {
+              navigate("/");
+              toast({
+                title: "Deleted",
+                description: "Your post was successfully deleted.",
+              });
+            },
+          }
+        );
       }
     } catch (error) {
       console.log(error);
