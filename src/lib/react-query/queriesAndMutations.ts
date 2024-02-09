@@ -4,9 +4,9 @@ import {
   useMutation, // modifying the data, creating, updating, deleting(POST, PUT, PATCH, DELETE)
   useQueryClient, // this hook manages caching, fetching, and updating your data. With useQueryClient, you can access methods like getQueryData, getQueryState, getQueryCache
   useInfiniteQuery,
-  QueryClient, // pagination
+  // QueryClient, // pagination
 } from "@tanstack/react-query";
-import { string } from "zod";
+// import { string } from "zod";
 import {
   createPost,
   createUserAccount,
@@ -195,13 +195,15 @@ export const useGetPosts = () => {
   return useInfiniteQuery({
     queryKey: [QUERY_KEYS.GET_INFINITE_POSTS], // QUERY_KEYS helps us to avoid typos. It's an array because you can have multiple keys for more complex queries.
     queryFn: getInfinitePosts,
-    getNextPageParam: (lastPage) => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    getNextPageParam: (lastPage: any) => {
       if (lastPage && lastPage.documents.length === 0) return null;
 
-      const lastId = lastPage.documents[lastPage?.documents.length - 1].$id;
+      const lastId = lastPage.documents[lastPage.documents.length - 1].$id;
 
       return lastId;
     },
+    initialPageParam: null,
   });
 };
 

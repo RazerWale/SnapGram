@@ -1,5 +1,5 @@
 import { ID, Query } from "appwrite";
-import { IUpdatePost, INewPost, INewUser, IUpdateUser } from "@/types";
+import { IUpdatePost, INewPost, INewUser } from "@/types";
 import { appwriteConfig, account, databases, storage, avatars } from "./config";
 
 // import { Query } from '@tanstack/react-query';
@@ -367,7 +367,7 @@ export async function deletePost(
   }
 }
 export async function getInfinitePosts({ pageParam }: { pageParam: number }) {
-  const queries: unknown[] = [Query.orderDesc("$updatedAt"), Query.limit(10)];
+  const queries: string[] = [Query.orderDesc("$updatedAt"), Query.limit(10)];
 
   if (pageParam) {
     //

@@ -12,9 +12,11 @@ const Profile = () => {
   if (isPending) {
     return <Loader />;
   }
-  const userPosts = userCurrent?.posts.filter((post) => {
-    return post.save.length !== 0;
-  });
+  const userPosts = userCurrent?.posts.filter(
+    (post: { save: string | unknown[] }) => {
+      return post.save.length !== 0;
+    }
+  );
 
   return (
     <div className="explore-container">

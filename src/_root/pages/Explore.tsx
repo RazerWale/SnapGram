@@ -22,17 +22,20 @@ const Explore = () => {
     if (inView && !searchValue) fetchNextPage();
   }, [inView, searchValue]);
 
-  if (!posts) {
+  if (!posts && posts === undefined) {
     return (
       <div className="flex-center w-full h-full">
         <Loader />
       </div>
     );
   }
+  // if(!searchedPosts){
+  //   return
+  // }
   const shouldShowSearchResults = searchValue !== ""; // if search is not empty return true
   const shouldShowPosts = // if search value empty and there is no post, return true
     !shouldShowSearchResults &&
-    posts.pages.every((item) => item.documents.length === 0);
+    posts.pages.every((item) => item?.documents.length === 0);
 
   return (
     <div className="explore-container">
@@ -71,15 +74,19 @@ const Explore = () => {
 
       <div className="flex justify-center flex-wrap gap-9 w-full max-w-5xl">
         {shouldShowSearchResults ? (
-          <SearchResults
-            isSearchFetching={isSearchFetching}
-            searchedPosts={searchedPosts}
-          />
+          searchedPosts !== undefined ? (
+            <SearchResults
+              isSearchFetching={isSearchFetching}
+              searchedPosts={searchedPosts}
+            />
+          ) : (
+            <div>No posts!</div>
+          )
         ) : shouldShowPosts ? (
           <p className="text-light-4 mt-10 text-center w-full">End of posts</p>
         ) : (
           posts.pages.map((item, index) => (
-            <GridPostList key={`page=${index}`} posts={item.documents} />
+            <GridPostList key={`page=${index}`} posts={item?.documents || []} />
           ))
         )}
       </div>

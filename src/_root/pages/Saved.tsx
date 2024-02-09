@@ -1,8 +1,6 @@
 import GridPostList from "@/components/shared/GridPostList";
 import Loader from "@/components/shared/Loader";
 import { useGetUserSavedPosts } from "@/lib/react-query/queriesAndMutations";
-import { INewPost } from "@/types";
-import { useEffect } from "react";
 
 const Saved = () => {
   const { data: savedPostsUser, isPending: isLoading } = useGetUserSavedPosts();
@@ -28,7 +26,7 @@ const Saved = () => {
           {isLoading ? (
             <Loader />
           ) : savedPostsUser?.length !== 0 ? (
-            <GridPostList posts={savedPostsUser} />
+            <GridPostList posts={savedPostsUser || []} />
           ) : (
             <div>No saved posts!</div>
           )}
