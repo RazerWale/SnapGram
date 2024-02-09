@@ -9,7 +9,7 @@ const RootLayout = () => {
       <Topbar />
       <LefSidetbar />
 
-      <section className="flex flex1 h-full">
+      <section className="flex flex1 h-full w-svw">
         <Outlet />
       </section>
       <Bottombar />

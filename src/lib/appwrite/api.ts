@@ -82,7 +82,6 @@ export async function getCurrentUser() {
     );
 
     if (!currentUser) throw Error;
-
     return currentUser.documents[0];
   } catch (error) {
     console.log(error);
@@ -174,6 +173,43 @@ export async function getRecentPosts() {
 
     if (!posts) throw Error;
     return posts;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export async function getUserSavedPosts() {
+  try {
+    const currentAccount = await account.get();
+
+    if (!currentAccount) throw Error;
+
+    const currentUser = await databases.listDocuments(
+      appwriteConfig.databaseId,
+      appwriteConfig.userCollectionId,
+      [Query.equal("accountId", currentAccount.$id)]
+    );
+
+    const saveArray = currentUser.documents[0].save.length;
+
+    if (saveArray !== 0) {
+      const savedPosts = currentUser.documents[0].save.map(
+        (posts: { post: { $id: string } }) => {
+          return posts.post.$id;
+        }
+      );
+      const userSavedPosts = await databases.listDocuments(
+        appwriteConfig.databaseId,
+        appwriteConfig.postCollectionId,
+        [Query.equal("$id", savedPosts)]
+      );
+      console.log(userSavedPosts);
+      if (!userSavedPosts) throw Error;
+
+      return userSavedPosts.documents;
+    } else {
+      return [];
+    }
   } catch (error) {
     console.log(error);
   }

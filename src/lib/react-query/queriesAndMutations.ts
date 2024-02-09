@@ -106,6 +106,9 @@ export const useSavePost = () => {
       queryClient.invalidateQueries({
         queryKey: [QUERY_KEYS.GET_CURRENT_USER],
       });
+      // queryClient.invalidateQueries({
+      //   queryKey: [QUERY_KEYS.GET_USER_SAVED_POSTS],
+      // });
     },
   });
 };
@@ -125,6 +128,9 @@ export const useDeleteSavedPost = () => {
       queryClient.invalidateQueries({
         queryKey: [QUERY_KEYS.GET_CURRENT_USER],
       });
+      // queryClient.invalidateQueries({
+      //   queryKey: [QUERY_KEYS.GET_USER_SAVED_POSTS],
+      // });
     },
   });
 };
@@ -133,6 +139,13 @@ export const useGetCurrentUser = () => {
   return useQuery({
     queryKey: [QUERY_KEYS.GET_CURRENT_USER],
     queryFn: getCurrentUser,
+  });
+};
+
+export const useGetUserSavedPosts = () => {
+  return useQuery({
+    queryKey: [QUERY_KEYS.GET_USER_SAVED_POSTS],
+    queryFn: getUserSavedPosts,
   });
 };
 

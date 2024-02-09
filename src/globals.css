@@ -278,3 +278,16 @@
     @apply flex gap-4 items-center justify-start hover:bg-transparent hover:text-white !important;
   }
 }
+
+/* my own colors */
+
+.bg-light-grey {
+  background-color: #101012;
+}
+.btns-purple {
+  color: #877eff;
+}
+
+.w-svw {
+  width: 100svw;
+}

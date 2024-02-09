@@ -28,10 +28,13 @@ const PostStats = ({ post, userId }: PostStatsProps) => {
 
   const { data: currentUser } = useGetCurrentUser();
 
+  // console.log(currentUser);
+
   // bool to find if post have been saved or not by this user
   const savedPostRecord = currentUser?.save.find(
     (record: Models.Document) => record.post.$id === post?.$id
   );
+  // console.log(savedPostRecord);
 
   useEffect(() => {
     setIsSaved(!!savedPostRecord);
@@ -63,6 +66,7 @@ const PostStats = ({ post, userId }: PostStatsProps) => {
       deleteSavedPost(savedPostRecord.$id);
     } else {
       savePost({ postId: post?.$id || "", userId }); // sets new array with ids to the likes state
+      // savePost({ postId: post?.$id || "", userId }); // sets new array with ids to the likes state
       setIsSaved(true);
     }
   };
