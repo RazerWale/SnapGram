@@ -17,11 +17,13 @@ import {
 import RootLayout from "./_root/RootLayout";
 import { Toaster } from "@/components/ui/toaster";
 import { SpeedInsights } from "@vercel/speed-insights/react";
+import { Analytics } from "@vercel/analytics/react";
 
 const App = () => {
   return (
     <main className="flex h-screen">
       <SpeedInsights />
+      <Analytics />
       <Routes>
         {/* {public routes} */}
         {/* outlet of AuthLayout will render child depend on route path */}
