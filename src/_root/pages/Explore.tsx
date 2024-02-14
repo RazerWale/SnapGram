@@ -17,6 +17,7 @@ const Explore = () => {
   const debouncedValue = useDebounce(searchValue, 500);
   const { data: searchedPosts, isFetching: isSearchFetching } =
     useSearchPosts(debouncedValue);
+  console.log(posts);
 
   useEffect(() => {
     if (inView && !searchValue) fetchNextPage();
@@ -85,8 +86,8 @@ const Explore = () => {
         ) : shouldShowPosts ? (
           <p className="text-light-4 mt-10 text-center w-full">End of posts</p>
         ) : (
-          posts.pages.map((item, index) => (
-            <GridPostList key={`page=${index}`} posts={item?.documents || []} />
+          posts.pages.map((post, index) => (
+            <GridPostList key={`page=${index}`} posts={post?.documents || []} />
           ))
         )}
       </div>

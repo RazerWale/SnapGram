@@ -5,8 +5,8 @@ import PostStats from "./PostStats";
 
 type GridPostListProps = {
   posts: Models.Document[];
-  creatorImage: string;
-  creatorName: string;
+  creatorImage?: string;
+  creatorName?: string;
   showUser?: boolean;
   showStats?: boolean;
 };
@@ -38,11 +38,13 @@ const GridPostList = ({
             {showUser && (
               <div className="flex items-center justify-start gap-2 flex-1">
                 <img
-                  src={creatorImage}
+                  src={creatorImage ? creatorImage : post.creator.imageUrl}
                   alt="creator"
                   className="h-8 w-8 rounded-full"
                 />
-                <p className="line-clamp-1">{creatorName}</p>
+                <p className="line-clamp-1">
+                  {creatorName ? creatorName : post.creator.name}
+                </p>
               </div>
             )}
             {showStats && <PostStats post={post} userId={user.id} />}
