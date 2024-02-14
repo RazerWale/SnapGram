@@ -27,6 +27,8 @@ const PostStats = ({ post, userId }: PostStatsProps) => {
 
   const { data: currentUser } = useGetCurrentUser();
 
+  // console.log(currentUser);
+
   // bool to find if post have been saved or not by this user
   // if current user saved the post, it will contain that post in user obj
   const savedPostRecord = currentUser?.save.find(
