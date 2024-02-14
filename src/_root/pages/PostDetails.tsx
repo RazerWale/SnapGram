@@ -28,9 +28,6 @@ const PostDetails = () => {
   const { mutate: deletePost, isPending: isDeleting } = useDeletePost();
   const navigate = useNavigate();
 
-  console.log(isDeleting);
-  console.log(post?.imageId);
-
   const handleDeletePost = async (e: React.MouseEvent) => {
     e.stopPropagation();
     try {

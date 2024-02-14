@@ -1,30 +1,36 @@
+import EditButton from "@/components/shared/EditButton";
+import FollowButton from "@/components/shared/FollowButton";
 import GridPostList from "@/components/shared/GridPostList";
 import Loader from "@/components/shared/Loader";
-import { Button } from "@/components/ui/button";
-import { useUserContext } from "@/context/AuthContext";
-import { useGetCurrentUser } from "@/lib/react-query/queriesAndMutations";
+import {
+  useGetCurrentUser,
+  useGetUserById,
+} from "@/lib/react-query/queriesAndMutations";
 import { Link } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 const Profile = () => {
-  const { user } = useUserContext();
-  const { data: userCurrent, isPending } = useGetCurrentUser();
+  const { data: userCurrent } = useGetCurrentUser();
+  const { id } = useParams();
 
-  if (isPending) {
+  const { data: user, isPending: isUserLoading } = useGetUserById(id);
+
+  if (isUserLoading) {
     return <Loader />;
   }
-  const userPosts = userCurrent?.posts.filter(
-    (post: { save: string | unknown[] }) => {
-      return post.save.length !== 0;
-    }
-  );
+  const userPosts = user?.posts;
+  // const userPosts = user?.posts.filter((post: { save: string | unknown[] }) => {
+  //   return post.save.length !== 0;
+  // });
+  console.log(userPosts);
 
   return (
     <div className="explore-container">
       <div className="flex my-12">
         <div className="md:w-60 w-32 sm:mx-0 mx-4">
-          <Link to={`/profile/${user.id}`} className="flex-center gap-3">
+          <Link to={`/profile/${user?.id}`} className="flex-center gap-3">
             <img
-              src={user.imageUrl || "/assets/icons/profile-placeholder.svg"}
+              src={user?.imageUrl || "/assets/icons/profile-placeholder.svg"}
               alt="profile"
               className="md:h-20 md:w-20 h-16 w-16 rounded-full"
             />
@@ -33,20 +39,11 @@ const Profile = () => {
         <div className="">
           <div className="flex py-2">
             <div className="flex flex-col">
-              <div className="text-2xl font-semibold py-1">{user.name}</div>
-              <div className="text-sm text-light-3">@{user.username}</div>
+              <div className="text-2xl font-semibold py-1">{user?.name}</div>
+              <div className="text-sm text-light-3">@{user?.username}</div>
             </div>
             <div className="mx-3">
-              <Button variant="ghost" className="text-xs">
-                <img
-                  src="/assets/icons/edit.svg"
-                  alt="delete"
-                  width={18}
-                  height={18}
-                  className="mr-2"
-                />
-                Edit profile
-              </Button>
+              {userCurrent?.$id === id ? <EditButton /> : <FollowButton />}
             </div>
           </div>
           <div className="flex py-2">
@@ -108,7 +105,12 @@ const Profile = () => {
 
         <div className="flex justify-center flex-wrap gap-9 w-full max-w-5xl">
           {userPosts.length !== 0 && (
-            <GridPostList key={userPosts.id} posts={userPosts} />
+            <GridPostList
+              key={userPosts.id}
+              posts={user?.posts}
+              creatorImage={user?.imageUrl}
+              creatorName={user?.name}
+            />
           )}
         </div>
       </div>

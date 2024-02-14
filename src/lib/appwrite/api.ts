@@ -301,6 +301,21 @@ export async function getPostById(postId?: string) {
   }
 }
 
+export async function getUserById(userId?: string) {
+  if (!userId) throw Error;
+  try {
+    const post = await databases.getDocument(
+      appwriteConfig.databaseId,
+      appwriteConfig.userCollectionId,
+      userId
+    );
+
+    return post;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
 export async function updatePost(post: IUpdatePost) {
   const hasFileToUpdate = post.file.length > 0;
 
