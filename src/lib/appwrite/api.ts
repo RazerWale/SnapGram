@@ -250,6 +250,25 @@ export async function likePost(postId: string, likesArray: string[]) {
   }
 }
 
+export async function followUser(userId: string, followingArray: string[]) {
+  try {
+    const updatedUserFollowing = await databases.updateDocument(
+      appwriteConfig.databaseId,
+      appwriteConfig.userCollectionId,
+      userId,
+      {
+        following: followingArray,
+      }
+    );
+
+    if (!updatedUserFollowing) throw Error;
+
+    return updatedUserFollowing;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
 export async function savePost(postId: string, userId: string) {
   try {
     const updatedPost = await databases.createDocument(

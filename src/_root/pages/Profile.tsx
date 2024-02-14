@@ -22,7 +22,14 @@ const Profile = () => {
   // const userPosts = user?.posts.filter((post: { save: string | unknown[] }) => {
   //   return post.save.length !== 0;
   // });
-  console.log(userPosts);
+  console.log(user);
+
+  // if (!userCurrent) {
+  //   return []; // or handle it in a way that makes sense for your application
+  // }
+  // if (!user) {
+  //   return []; // or handle it in a way that makes sense for your application
+  // }
 
   return (
     <div className="explore-container">
@@ -43,7 +50,13 @@ const Profile = () => {
               <div className="text-sm text-light-3">@{user?.username}</div>
             </div>
             <div className="mx-3">
-              {userCurrent?.$id === id ? <EditButton /> : <FollowButton />}
+              {userCurrent?.$id && user ? (
+                userCurrent.$id === user.id ? (
+                  <EditButton />
+                ) : (
+                  <FollowButton user={user} userCurrent={userCurrent} />
+                )
+              ) : null}
             </div>
           </div>
           <div className="flex py-2">
