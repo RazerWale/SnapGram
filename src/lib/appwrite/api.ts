@@ -87,6 +87,22 @@ export async function getCurrentUser() {
     console.log(error);
   }
 }
+
+export async function getUsers(queryLimit: number) {
+  try {
+    const users = await databases.listDocuments(
+      appwriteConfig.databaseId,
+      appwriteConfig.userCollectionId,
+      [Query.orderAsc("$createdAt"), Query.limit(queryLimit)]
+    );
+
+    if (!users) throw Error;
+    return users;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
 export async function createPost(post: INewPost) {
   try {
     const uploadedFile = await uploadFile(post.file[0]);
