@@ -45,7 +45,7 @@ const FollowButton = ({ user, userCurrent }: FollowButtonProps) => {
     <Button
       type="button"
       size="sm"
-      className="shad-button_primary px-5 my-1"
+      className="shad-button_secondary px-5 my-1"
       onClick={handleFollowUser}
     >
       Following
@@ -54,7 +54,7 @@ const FollowButton = ({ user, userCurrent }: FollowButtonProps) => {
     <Button
       type="button"
       size="sm"
-      className="shad-button_secondary px-5 my-1"
+      className="shad-button_primary px-5 my-1"
       onClick={handleFollowUser}
     >
       Follow
