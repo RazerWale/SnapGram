@@ -21,6 +21,7 @@ import {
   getUserSavedPosts,
   getUsers,
   likePost,
+  saveFollowers,
   savePost,
   searchPosts,
   signInAccount,
@@ -104,6 +105,27 @@ export const useFollowUser = () => {
       userId: string;
       followingArray: string[];
     }) => followUser(userId, followingArray),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.GET_CURRENT_USER],
+      });
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.GET_USER_BY_ID],
+      });
+    },
+  });
+};
+
+export const useSaveFollowers = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: ({
+      userId,
+      followersArray,
+    }: {
+      userId: string;
+      followersArray: string[];
+    }) => saveFollowers(userId, followersArray),
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: [QUERY_KEYS.GET_CURRENT_USER],

@@ -22,6 +22,7 @@ const Profile = () => {
   //   return post.save.length !== 0;
   // });
   console.log(user);
+  console.log(user?.posts.length);
   console.log(user?.$id);
   console.log(userCurrent?.$id);
   console.log(userCurrent?.$id === user?.id);
@@ -63,15 +64,15 @@ const Profile = () => {
           </div>
           <div className="flex py-2">
             <div className="flex flex-col pr-5">
-              <div className="btns-purple">273</div>
+              <div className="btns-purple">{user?.posts.length}</div>
               <div className="">Posts</div>
             </div>
             <div className="flex flex-col pr-5">
-              <div className="btns-purple">147</div>
+              <div className="btns-purple">{user?.followers.length}</div>
               <div className="">Folowers</div>
             </div>
             <div className="flex flex-col">
-              <div className="btns-purple">151</div>
+              <div className="btns-purple">{user?.following.length}</div>
               <div className="">Following</div>
             </div>
           </div>

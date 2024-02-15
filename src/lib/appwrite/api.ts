@@ -269,6 +269,23 @@ export async function followUser(userId: string, followingArray: string[]) {
   }
 }
 
+export async function saveFollowers(userId: string, followersArray: string[]) {
+  try {
+    const updatedUserFollowers = await databases.updateDocument(
+      appwriteConfig.databaseId,
+      appwriteConfig.userCollectionId,
+      userId,
+      {
+        followers: followersArray,
+      }
+    );
+
+    if (!updatedUserFollowers) throw Error;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
 export async function savePost(postId: string, userId: string) {
   try {
     const updatedPost = await databases.createDocument(
