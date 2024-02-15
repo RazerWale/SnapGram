@@ -12,7 +12,6 @@ import { useParams } from "react-router-dom";
 const Profile = () => {
   const { data: userCurrent } = useGetCurrentUser();
   const { id } = useParams();
-
   const { data: user, isPending: isUserLoading } = useGetUserById(id);
 
   if (isUserLoading) {
@@ -23,6 +22,9 @@ const Profile = () => {
   //   return post.save.length !== 0;
   // });
   console.log(user);
+  console.log(user?.$id);
+  console.log(userCurrent?.$id);
+  console.log(userCurrent?.$id === user?.id);
 
   // if (!userCurrent) {
   //   return []; // or handle it in a way that makes sense for your application
@@ -51,7 +53,7 @@ const Profile = () => {
             </div>
             <div className="mx-3">
               {userCurrent?.$id && user ? (
-                userCurrent.$id === user.id ? (
+                userCurrent.$id === user.$id ? (
                   <EditButton />
                 ) : (
                   <FollowButton user={user} userCurrent={userCurrent} />
